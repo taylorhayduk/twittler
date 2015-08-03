@@ -45,7 +45,7 @@
 </nav>
 
     <div class="col-md-12 text-center"> 
-      <button id="seeAll" class="btn btn-primary">See New</button> 
+      <button id="showNew" class="btn btn-primary">Show New</button> 
     </div>
 
 
@@ -64,7 +64,9 @@
             var tweet = streams.home[lastDisplayed];
             var $tweet = $('<div></div>');
             var user = tweet.user
+            $tweet.addClass('tweet');
             $tweet.addClass(user);
+            $tweet.data("name", user);
             if (!liveFeed) {
               $tweet.addClass('hidden');
             }
@@ -81,10 +83,12 @@
         };
         displayNew();
 
-        var showAll = function(){$('div').removeClass('hidden');};
+        var showAll = function(){$('.tweet').removeClass('hidden');};
+        var hideAll = function(){$('.tweet').addClass('hidden');};
+
 
         // See New Button unhides all tweets
-        $("#seeAll").on('click', function(){
+        $("#showNew").on('click', function(){
           showAll();
         })
 
@@ -94,12 +98,23 @@
           liveFeed = !liveFeed;
           if (liveFeed) {
             $(this).text("Switch to Static View");
+            $('#showNew').addClass('hidden');
           }
-          else
+          else {
             $(this).text("Switch to Live View");
+            $('#showNew').removeClass('hidden');
+          }
         })
 
-        
+        var selectedUser = 'all';
+
+        // Filter by User
+        $('.tweet').on('click', function(){
+          selectedUser = $(this).data('name');
+          hideAll();
+          console.log(selectedUser);
+          $("."+selectedUser).removeClass('hidden');
+        })
 
       });
 
