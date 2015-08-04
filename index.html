@@ -70,7 +70,13 @@
             if (!liveFeed) {
               $tweet.addClass('hidden');
             }
-            $tweet.text(lastDisplayed + '@' + tweet.user + ': ' + tweet.message + tweet.created_at);
+            //$tweet.text(lastDisplayed + '||   @' + tweet.user + ': ' + tweet.message + tweet.created_at);
+
+            $tweet.append("<div>@"+tweet.user+'</div>');
+            $tweet.append('<div>'+tweet.message+'</div>');
+            $tweet.append('<div>'+tweet.created_at+'</div>');
+
+
             $tweet.prependTo($tweetlbox);
             lastDisplayed+=1;
           }
@@ -106,7 +112,8 @@
           }
         })
 
-        var selectedUser = 'all';
+        // will filter by selected user - use .tweet to display all
+        var selectedUser = '.tweet';
 
         // Filter by User
         $('.tweet').on('click', function(){
