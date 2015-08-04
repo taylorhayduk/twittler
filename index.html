@@ -29,7 +29,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Twittler Home</a>
+      <a class="navbar-brand" href="#" id="TwittlerHome">Twittler Home</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -54,7 +54,7 @@
 
       $(document).ready(function(){
         var $tweetlbox = $('#tweetlbox');
-
+        var selectedUser = 'tweet';
         // add new tweets & set hidden value
         var lastDisplayed = 0;
         var liveFeed = false;
@@ -69,7 +69,10 @@
             if (!liveFeed) {
               $tweet.addClass('hidden');
             }
-            $tweet.append('<div class="tweet_user">@'+tweet.user+'</div>');
+            if (selectedUser !== 'tweet') {
+              $tweet.addClass('userHidden');
+            }
+            $tweet.append('<div class="tweet_user btn btn-primary">@'+tweet.user+'</div>');
             $tweet.append('<div class="tweet_message">'+tweet.message+'</div>');
             $tweet.append('<div class="tweet_created_at">'+tweet.created_at+'</div>');
 
@@ -78,10 +81,26 @@
             lastDisplayed+=1;
           }
         }
-        // Filter by User
-        $('.tweet').on('click', function(){
-          console.log('hello');
+        // Select User - set to 'tweet' to show all
+        $('#tweetlbox').on('click', '.tweet_user', function(){
+          selectedUser = $(this).closest('.tweet').data('name');
+          console.log(selectedUser);
         });
+
+        var filterByUser = function(){
+          $('.tweet').not( document.getElementsByClassName(selectedUser)).addClass('userHidden');
+          $('.tweet').filter( document.getElementsByClassName(selectedUser)).removeClass('userHidden');
+          setTimeout(function(){filterByUser()}, 100);
+        }
+        filterByUser();
+
+        $('#TwittlerHome').on('click', function(){
+          selectedUser = 'tweet';
+        })
+
+
+
+
 
         // Add new tweets to DOM every 100ms
         var displayNew = function(){

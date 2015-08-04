@@ -1,3 +1,14 @@
 .hidden {
 	display: none;
 }
+
+.userHidden {
+	display: none;
+}
+
+.tweet {
+	border: 2px solid #E6E6E6;
+	border-radius: 10px;
+	margin: 5px;
+
+}
